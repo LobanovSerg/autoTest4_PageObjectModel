@@ -1,4 +1,4 @@
-# import time
+from .pages.main_page import MainPage
 
 
 def go_to_login_page(browser):
@@ -8,6 +8,8 @@ def go_to_login_page(browser):
 
 def test_guest_can_go_to_login_page(browser):
     link = "http://selenium1py.pythonanywhere.com/"
-    browser.get(link)
-    # time.sleep(5)
-    go_to_login_page(browser)
+    # инициализируем Page Object
+    # передаем в конструктор экземпляр драйвера и url адрес
+    page = MainPage(browser, link)
+    page.open()  # открываем страницу
+    page.go_to_login_page()
