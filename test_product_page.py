@@ -1,18 +1,39 @@
+from .pages.main_page import MainPage
 from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 import pytest
+import time
 
 link_ = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
-# promo_list = [f'{link_}?promo=offer{i}' for i in range(10)]
-# promo_list[7] = pytest.param(promo_list[7], marks=pytest.mark.xfail)
 
 
-# @pytest.mark.parametrize('link', promo_list)
-# def test_guest_can_add_product_to_basket(browser, link):
-#    page = ProductPage(browser, link)
-#    page.open()
-#    page.should_be_product_add_to_basket()
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        email, passwd = str(time.time()) + '@fakemail.org', 'testpasswd'
+        link = 'http://selenium1py.pythonanywhere.com/accounts/login/'
+        login_page = LoginPage(browser, link)
+        login_page.open()
+        login_page.register_new_user(email, passwd)
+        page = MainPage(browser, browser.current_url)
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        page = ProductPage(browser, link_)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        page = ProductPage(browser, link_)
+        page.open()
+        page.should_be_product_add_to_basket()
+
+
+def test_guest_can_add_product_to_basket(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_product_add_to_basket()
 
 
 @pytest.mark.xfail(reason='Success message in page')
@@ -38,7 +59,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.should_be_disappear_success_message()
 
 
-link = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/'\
+link = 'http://selenium1py.pythonanywhere.com/catalogue/'\
        'the-city-and-the-stars_95/'
 
 

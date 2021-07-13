@@ -9,7 +9,8 @@
 
 ***
 #### FAQ:
-+ Использование: кроме стандартных опций _`pytest`_ доступны необязательные параметры _`--language`_ и _`--browser_name`_. Например:
++ Проверки выполняются для любого языка из _`pages/languages.py`_
++ Kроме стандартных опций _`pytest`_ доступны необязательные параметры _`--language`_ и _`--browser_name`_. Например:
 ```shell
 pytest --browser_name=firefox --language=de
 ```
