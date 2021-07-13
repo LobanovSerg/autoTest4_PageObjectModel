@@ -13,7 +13,6 @@ class ProductPage(BasePage):
             'Button "Add to basket" not found'
         basket = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
         basket.click()
-        # self.solve_quiz_and_get_code()
 
     def should_product_in_basket(self):
         prod_name = self.browser.find_element(

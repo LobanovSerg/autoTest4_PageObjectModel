@@ -24,16 +24,26 @@ class TestUserAddToBasketFromProductPage():
         page.open()
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         page = ProductPage(browser, link_)
         page.open()
         page.should_be_product_add_to_basket()
 
 
-def test_guest_can_add_product_to_basket(browser):
-    page = ProductPage(browser, link)
+promo_list = [f'{link_}?promo=offer{i}' for i in range(10)]
+promo_list[7] = pytest.param(promo_list[7], marks=pytest.mark.xfail)
+
+
+@pytest.mark.need_review
+@pytest.mark.parametrize('lnk', promo_list)
+def test_guest_can_add_product_to_basket(browser, lnk):
+    page = ProductPage(browser, lnk)
     page.open()
-    page.should_be_product_add_to_basket()
+    page.product_add_to_basket()
+    page.solve_quiz_and_get_code()
+    page.should_product_in_basket()
+    page.should_product_price_equal_basket()
 
 
 @pytest.mark.xfail(reason='Success message in page')
@@ -69,6 +79,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -77,6 +88,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page.should_be_login_form()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
