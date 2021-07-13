@@ -1,5 +1,5 @@
 
-## ![CourseLogo](src/course_logo_.png) Автоматизация тестирования с помощью Selenium и Python
+## Автоматизация тестирования с помощью Selenium и Python
 
 
 [Course Link >>](https://stepik.org/course/575/promo)
@@ -9,6 +9,11 @@
 
 ***
 #### FAQ:
++ Тесты промаркированные для проверки _`need_review`_:
+    * _`test_user_can_add_product_to_basket`_
+    * _`test_guest_can_add_product_to_basket`_ - __параметризован__: 10 promo ссылок
+    * _`test_guest_cant_see_product_in_basket_opened_from_product_page`_
+    * _`test_guest_can_go_to_login_page_from_product_page`_
 + Проверки выполняются для любого языка из _`pages/languages.py`_
 + Kроме стандартных опций _`pytest`_ доступны необязательные параметры _`--language`_ и _`--browser_name`_. Например:
 ```shell
