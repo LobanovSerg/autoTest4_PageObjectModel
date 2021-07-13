@@ -3,9 +3,13 @@ from .locators import ProductPageLocators
 
 
 class ProductPage(BasePage):
+    def should_be_product_add_to_basket(self):
+        self.product_add_to_basket()
+        self.should_product_in_basket()
+        self.should_product_price_equal_basket()
 
     def product_add_to_basket(self):
-        assert self.is_element_present(*ProductPageLocators.ADD_TO_BASKET), \
+        assert self.is_element_present(*ProductPageLocators.ADD_TO_BASKET),\
             'Button "Add to basket" not found'
         basket = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
         basket.click()

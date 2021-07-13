@@ -1,5 +1,6 @@
 from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
+from .pages.basket_page import BasketPage
 import pytest
 
 link_ = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
@@ -11,9 +12,7 @@ link_ = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
 # def test_guest_can_add_product_to_basket(browser, link):
 #    page = ProductPage(browser, link)
 #    page.open()
-#    page.product_add_to_basket()
-#    page.should_product_in_basket()
-#    page.should_product_price_equal_basket()
+#    page.should_be_product_add_to_basket()
 
 
 @pytest.mark.xfail(reason='Success message in page')
@@ -55,3 +54,11 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_form()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_be_empty_basket()

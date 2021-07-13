@@ -1,12 +1,9 @@
 import pytest
 from selenium import webdriver
+from .pages.languages import languages
 
 # список поддерживаемых браузеров
 browsers_list = ['chrome', 'firefox']
-# список поддерживаемых языков
-langs_list = ['ar', 'ca', 'cs', 'da', 'de', 'en-gb', 'en', 'el', 'es', 'fi',
-              'fr', 'it', 'ko', 'nl', 'pl', 'pt', 'pt-br', 'ro', 'ru',
-              'sk', 'uk', 'zh-cn']
 
 # браузер и язык по умолчанию
 default_browser, default_lang = 'chrome', 'en'
@@ -17,7 +14,7 @@ def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default=default_browser,
                      help=f'Choose correct browser: {browsers_list}')
     parser.addoption('--language', action='store', default=default_lang,
-                     help=f'Choose corret language: {langs_list}')
+                     help=f'Choose correct language: {languages.keys()}')
 
 
 @pytest.fixture(scope="function")
@@ -26,9 +23,9 @@ def browser(request):
     browser_lang = request.config.getoption('language')
 
     # создание исключения при неверном вводе языка
-    if browser_lang not in langs_list:
+    if browser_lang not in languages:
         raise Exception(f'Wrong language! List languages: ' +
-                        ' '.join(langs_list))
+                        ' '.join(languages.keys()))
 
     # создание исключения при неверном вводе браузера
     if browser_name not in browsers_list:
